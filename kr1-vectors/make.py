@@ -7,12 +7,12 @@ import numpy as np, os, logging
 logging.getLogger('matplotlib.font_manager').setLevel(logging.ERROR)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-fm.fontManager.addfont(os.path.join(HERE, 'Caveat.ttf'))
+fm.fontManager.addfont(os.path.join(HERE, 'Pangolin.ttf'))
 rcParams['mathtext.fontset'] = 'custom'
 for k in ['rm', 'it', 'bf', 'sf']:
-    rcParams['mathtext.' + k] = 'Caveat'
+    rcParams['mathtext.' + k] = 'Pangolin'
 rcParams['mathtext.fallback'] = 'stixsans'
-rcParams['font.family'] = 'Caveat'
+rcParams['font.family'] = 'Pangolin'
 
 W, H = 297, 210            # landscape page, mm
 INK = '#1b3a9a'            # blue pen
@@ -20,7 +20,7 @@ RED = '#c62828'            # red pen (answers / highlights)
 PEN = '#2b2b2b'            # pencil for drawings
 GREEN = '#2e7d32'
 GRID = '#9cc3e6'
-FS = 19                    # base font size
+FS = 16                    # base font size
 
 
 def V(s):                  # vector with arrow
@@ -52,7 +52,7 @@ class Page:
 
     def head(self, s, x=12):
         self.ax.text(x, self.y, s, fontsize=FS + 1, color=INK, va='baseline', fontweight='bold')
-        self.ax.plot([x, x + 3.2 * len(s.replace('$', '')) * 0.75], [self.y + 1.2] * 2,
+        self.ax.plot([x, x + 3.2 * len(s.replace('$', '')) * 0.62], [self.y + 1.2] * 2,
                      color=INK, lw=0.8)
         self.y += 10
 
@@ -122,11 +122,11 @@ VARS = {
     1: dict(
         t1=dict(start='M', a='K', b='N', res='P', ans='3'),
         t2=dict(fig='rect', items=[
-            (V('AO') + '=' + V('CO'), False, 'противоположно направлены'),
-            (V('AC') + '=' + V('BD'), False, 'не сонаправлены'),
-            (r'|' + V('AC') + '|=|' + V('BD') + '|', True, 'диагонали прямоугольника равны'),
+            (V('AO') + '=' + V('CO'), False, r'$\uparrow\downarrow$'),
+            (V('AC') + '=' + V('BD'), False, 'разные направления'),
+            (r'|' + V('AC') + '|=|' + V('BD') + '|', True, 'диагонали равны'),
             (V('BA') + '=' + V('CD'), True, r'сонаправлены, $BA=CD$'),
-            (V('AB') + '=' + V('CD'), False, 'противоположно направлены'),
+            (V('AB') + '=' + V('CD'), False, r'$\uparrow\downarrow$'),
             (V('OD') + r'=0{,}5' + V('BD'), True, r'$O$ — середина $BD$, $\uparrow\uparrow$'),
         ], ans='3; 4; 6'),
         t3=dict(u='m', v='n', U=(-2, 1), Vv=(2, 4), k1=2, k2=3, r='a', ans='1'),
@@ -141,8 +141,8 @@ VARS = {
         t1=dict(start='N', a='M', b='P', res='K', ans='2'),
         t2=dict(fig='rhomb', items=[
             (V('AB') + '=' + V('AD'), False, 'разные направления'),
-            (r'|' + V('AB') + '|=|' + V('AD') + '|', True, 'стороны ромба равны'),
-            (V('BO') + '=' + V('DO'), False, 'противоположно направлены'),
+            (r'|' + V('AB') + '|=|' + V('AD') + '|', True, 'стороны равны'),
+            (V('BO') + '=' + V('DO'), False, r'$\uparrow\downarrow$'),
             (V('CB') + '=' + V('AD'), False, r'$\overrightarrow{CB}\uparrow\downarrow\overrightarrow{AD}$'),
             (V('BC') + '=' + V('AD'), True, r'сонаправлены, $BC=AD$'),
             (V('CO') + r'=0{,}5' + V('CA'), True, r'$O$ — середина $CA$, $\uparrow\uparrow$'),
@@ -158,11 +158,11 @@ VARS = {
     3: dict(
         t1=dict(start='K', a='P', b='M', res='N', ans='1'),
         t2=dict(fig='rect', items=[
-            (r'|' + V('CA') + '|=|' + V('BD') + '|', True, 'диагонали прямоугольника равны'),
-            (V('CA') + '=' + V('BD'), False, 'не сонаправлены'),
-            (V('OA') + '=' + V('OC'), False, 'противоположно направлены'),
+            (r'|' + V('CA') + '|=|' + V('BD') + '|', True, 'диагонали равны'),
+            (V('CA') + '=' + V('BD'), False, 'разные направления'),
+            (V('OA') + '=' + V('OC'), False, r'$\uparrow\downarrow$'),
             (V('OB') + r'=0{,}5' + V('DB'), True, r'$O$ — середина $DB$, $\uparrow\uparrow$'),
-            (V('AB') + '=' + V('CD'), False, 'противоположно направлены'),
+            (V('AB') + '=' + V('CD'), False, r'$\uparrow\downarrow$'),
             (V('AB') + '=' + V('DC'), True, r'сонаправлены, $AB=DC$'),
         ], ans='1; 4; 6'),
         t3=dict(u='n', v='k', U=(-3, 4), Vv=(1, 2), k1=3, k2=4, r='b', ans='2'),
@@ -176,11 +176,11 @@ VARS = {
     4: dict(
         t1=dict(start='P', a='N', b='K', res='M', ans='4'),
         t2=dict(fig='rhomb', items=[
-            (V('OB') + '=' + V('OD'), False, 'противоположно направлены'),
+            (V('OB') + '=' + V('OD'), False, r'$\uparrow\downarrow$'),
             (V('BC') + '=' + V('DA'), False, r'$\overrightarrow{BC}\uparrow\downarrow\overrightarrow{DA}$'),
             (V('CB') + '=' + V('DA'), True, r'сонаправлены, $CB=DA$'),
             (V('BA') + '=' + V('BC'), False, 'разные направления'),
-            (r'|' + V('BA') + '|=|' + V('BC') + '|', True, 'стороны ромба равны'),
+            (r'|' + V('BA') + '|=|' + V('BC') + '|', True, 'стороны равны'),
             (V('OA') + r'=0{,}5' + V('CA'), True, r'$O$ — середина $CA$, $\uparrow\uparrow$'),
         ], ans='3; 5; 6'),
         t3=dict(u='c', v='b', U=(-3, 4), Vv=(2, 3), k1=4, k2=2, r='m', ans='3'),
@@ -208,11 +208,9 @@ def page_t1_t3(pdf, n, d):
     t = d['t1']
     p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
     p.w('Часть 1', x=120, size=FS + 1, color=INK)
-    p.head('№ 1.')
+    p.head('Задача 1.')
     p.w(f'$KMNP$ — параллелограмм. ${V(t["start"] + t["a"])}+{V(t["start"] + t["b"])}=\\;?$')
-    p.w(f'Оба вектора отложены от одной точки ${t["start"]}$, значит')
-    p.w(f'по правилу параллелограмма их сумма — диагональ')
-    p.w(f'параллелограмма, выходящая из точки ${t["start"]}$:')
+    p.w(f'По правилу параллелограмма сумма — диагональ из ${t["start"]}$:')
     p.w(f'${V(t["start"] + t["a"])}+{V(t["start"] + t["b"])}={V(t["start"] + t["res"])}$', x=40, size=FS + 3, step=12)
     p.answer(t['ans'] + f'   $({V(OPTS1[t["ans"]])})$')
     # figure
@@ -231,7 +229,7 @@ def page_t1_t3(pdf, n, d):
     t3 = d['t3']; u, v, U, Vv, k1, k2, r = t3['u'], t3['v'], t3['U'], t3['Vv'], t3['k1'], t3['k2'], t3['r']
     A = (k1 * U[0], k1 * U[1]); B = (k2 * Vv[0], k2 * Vv[1]); R = (A[0] - B[0], A[1] - B[1])
     p.skip(4)
-    p.head('№ 3.')
+    p.head('Задача 3.')
     p.w(f'$\\vec{{{u}}}\\,{cv(U)},\\ \\vec{{{v}}}\\,{cv(Vv)}.\\quad \\vec{{{r}}}={k1}\\vec{{{u}}}-{k2}\\vec{{{v}}}$')
     p.w(f'${k1}\\vec{{{u}}}\\,\\{{{k1}\\cdot{num(U[0])};\\,{k1}\\cdot{num(U[1])}\\}}={cv(A)}$')
     p.w(f'${k2}\\vec{{{v}}}\\,\\{{{k2}\\cdot{num(Vv[0])};\\,{k2}\\cdot{num(Vv[1])}\\}}={cv(B)}$')
@@ -244,15 +242,14 @@ def page_t2(pdf, n, d):
     t = d['t2']
     p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
     name = 'прямоугольник' if t['fig'] == 'rect' else 'ромб'
-    p.head('№ 2.')
-    p.w(f'$ABCD$ — {name}, $O$ — точка пересечения диагоналей.')
-    p.w('Векторы равны, если они сонаправлены и их длины равны.', step=12)
+    p.head('Задача 2.')
+    p.w(f'$ABCD$ — {name}.', step=12)
     for i, (eq, ok, why) in enumerate(t['items'], 1):
         mark = '+' if ok else '−'
         col = GREEN if ok else RED
         p.ax.text(14, p.y, f'{i})', fontsize=FS, color=INK, va='baseline')
         p.ax.text(22, p.y, f'${eq}$', fontsize=FS, color=INK, va='baseline')
-        p.ax.text(78, p.y, ('верно' if ok else 'неверно') + ': ' + why, fontsize=FS - 1,
+        p.ax.text(78, p.y, ('верно' if ok else 'неверно') + ' (' + why + ')', fontsize=FS - 1,
                   color=col, va='baseline')
         p.y += 11
     p.skip(2)
@@ -286,6 +283,7 @@ def page_t2(pdf, n, d):
     else:
         notes = ['$AB=BC=CD=DA$', '$AO=OC,\\ BO=OD$', '$\\overrightarrow{BC}=\\overrightarrow{AD}$, $\\overrightarrow{CB}=\\overrightarrow{DA}$']
     yy = 125
+    notes = []
     for s_ in notes:
         p.ax.text(190, yy, s_, fontsize=FS - 2, color=PEN, va='baseline'); yy += 10
     p.save()
@@ -295,7 +293,7 @@ def page_t4_t5(pdf, n, d):
     p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
     p.w('Часть 2', x=120, size=FS + 1)
     t4 = d['t4']; b = t4['b']
-    p.head('№ 4.')
+    p.head('Задача 4.')
     p.w(f'$\\vec b\\,{cv(b)}$.    $|\\vec b|=\\sqrt{{x^2+y^2}}$')
     p.w(f'$|\\vec b|={t4["calc"]}$', step=12)
     p.answer(t4['ans'])
@@ -309,7 +307,7 @@ def page_t4_t5(pdf, n, d):
 
     t5 = d['t5']; (n1, P1), (n2, P2) = t5['P'], t5['Q']
     p.skip(3)
-    p.head('№ 5.')
+    p.head('Задача 5.')
     p.w(f'По рисунку: ${n1}({P1[0]};\\,{P1[1]})$,  ${n2}({P2[0]};\\,{P2[1]})$.')
     if t5['kind'] == 'len':
         dx, dy = P2[0] - P1[0], P2[1] - P1[1]
@@ -347,17 +345,14 @@ def page_t6(pdf, n, d):
     res = (v1 + v2) / 2; res_s = f'{res:g}'
     p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
     p.w('Часть 3', x=120, size=FS + 1)
-    p.head('№ 6.')
+    p.head('Задача 6.')
     p.w(f'Дано: ${s}\\cap a=\\varnothing$, ${m}$ — середина ${s}$,')
     p.w(f'${e1}{e1}_1\\perp a$, ${e2}{e2}_1\\perp a$, ${m}{m}_1\\perp a$, ${e1}{e1}_1={v1}$, ${e2}{e2}_1={v2}$.')
     p.w(f'Найти: ${m}{m}_1$.', step=12)
     p.w('Решение.')
-    p.w(f'1) ${e1}{e1}_1\\perp a$ и ${e2}{e2}_1\\perp a$, значит ${e1}{e1}_1\\parallel {e2}{e2}_1$')
-    p.w('    (две прямые, перпендикулярные третьей, параллельны).')
-    p.w(f'    Так как ${e1}{e1}_1\\neq {e2}{e2}_1$, то ${e1}{e1}_1{e2}_1{e2}$ — трапеция.')
-    p.w(f'2) ${m}{m}_1\\perp a$, значит ${m}{m}_1\\parallel {e1}{e1}_1\\parallel {e2}{e2}_1$. Так как ${m}$ —')
-    p.w(f'    середина ${s}$, то по теореме Фалеса ${m}_1$ — середина ${e1}_1{e2}_1$.')
-    p.w(f'3) Значит, ${m}{m}_1$ — средняя линия трапеции:')
+    p.w(f'1) ${e1}{e1}_1\\parallel {m}{m}_1\\parallel {e2}{e2}_1$ (все $\\perp a$) $\\Rightarrow$ ${e1}{e1}_1{e2}_1{e2}$ — трапеция.')
+    p.w(f'2) ${m}$ — середина ${s}$ $\\Rightarrow$ ${m}_1$ — середина ${e1}_1{e2}_1$ (т. Фалеса).')
+    p.w(f'3) ${m}{m}_1$ — средняя линия трапеции:')
     p.w(f'${m}{m}_1=\\frac{{{e1}{e1}_1+{e2}{e2}_1}}{{2}}=\\frac{{{v1}+{v2}}}{{2}}=\\frac{{{v1+v2}}}{{2}}={res_s}$', x=40, size=FS + 3, step=14)
     p.answer(res_s)
     # figure
@@ -392,17 +387,15 @@ def page_t7(pdf, n, d):
     p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
     A, B, side = t['A'], t['B'], t['side']
     xa = t['Rs'] if side > 0 else '-' + t['Rs']
-    p.head('№ 7*.')
-    p.w(f'Дано: окружность $x^2+y^2={t["R2"]}$; ${A}$ — точка пересечения')
-    p.w(f'с {t["half"]} полуосью $Ox$; ${B}$ на окружности, $x_{B}={t["xb"]}$.')
+    p.head('Задача 7*.')
+    p.w(f'Дано: $x^2+y^2={t["R2"]}$;  ${A}$ на $Ox$ $(x{">" if side > 0 else "<"}0)$;  ${B}$ на окр., $x_{B}={t["xb"]}$.')
     p.w(f'Найти: $S_{{O{B}{A}}}$.', step=12)
     p.w('Решение.')
     p.w(f'1) Центр $O(0;\\,0)$, радиус $R=\\sqrt{{{t["R2"]}}}={t["Rs"]}$.' if t['Rs'] not in ('6', '5')
         else f'1) Центр $O(0;\\,0)$, радиус $R=\\sqrt{{{t["R2"]}}}={t["Rs"]}$.')
     p.w(f'2) ${A}$ лежит на $Ox$: $y=0$, $x^2={t["R2"]}$, $x={xa}$  $\\Rightarrow$  ${A}({xa};\\,0)$,  $O{A}={t["Rs"]}$.')
     p.w(f'3) ${B}$: ${num(t["xb"])}^2+y^2={t["R2"]}$, $y^2={t["R2"]}-{t["xb"]**2}={t["y2"]}$, $y=\\pm {t["ys"]}$.')
-    p.w(f'4) $O{A}$ лежит на оси $Ox$, поэтому высота ${B}H$ треугольника')
-    p.w(f'    равна расстоянию от ${B}$ до $Ox$: ${B}H=|y|={t["ys"]}$.')
+    p.w(f'4) Высота ${B}H$ к $O{A}$ (на оси $Ox$): ${B}H=|y|={t["ys"]}$.')
     p.w(f'5) $S=\\frac{{1}}{{2}}\\cdot O{A}\\cdot {B}H={t["S"]}$', size=FS + 2, step=13)
     p.answer(t['ans'])
     # figure
@@ -420,7 +413,6 @@ def page_t7(pdf, n, d):
     lab(ax, Ap, f'${A}$', side * 0.45, -0.45 * R / 4)
     lab(ax, Bp, f'${B}$', 0.0, 0.5 * R / 4)
     lab(ax, Hp, '$H$', -0.0, -0.5 * R / 4)
-    lab(ax, (xb, 0), f'{xb}', (-0.35 if xb < 0 else 0.35) * R / 4, 0.35 * R / 4, size=FS - 4)
     p.save()
 
 
