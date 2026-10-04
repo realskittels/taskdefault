@@ -14,13 +14,13 @@ for k in ['rm', 'it', 'bf', 'sf']:
 rcParams['mathtext.fallback'] = 'stixsans'
 rcParams['font.family'] = 'Pangolin'
 
-W, H = 297, 210            # landscape page, mm
+W, H = 210, 297            # A4 portrait, mm
 INK = '#1b3a9a'            # blue pen
 RED = '#c62828'            # red pen (answers / highlights)
 PEN = '#2b2b2b'            # pencil for drawings
 GREEN = '#2e7d32'
 GRID = '#9cc3e6'
-FS = 16                    # base font size
+FS = 13                    # base font size
 
 
 def V(s):                  # vector with arrow
@@ -38,28 +38,26 @@ class Page:
             ax.plot([x, x], [0, H], color=GRID, lw=0.35, zorder=-5)
         for y in np.arange(0, H, 5):
             ax.plot([0, W], [y, y], color=GRID, lw=0.35, zorder=-5)
-        ax.plot([282, 282], [0, H], color='#e57373', lw=1.0, zorder=-4)   # margin
+        ax.plot([197, 197], [0, H], color='#e57373', lw=1.0, zorder=-4)   # margin
         self.ax = ax
         self.y = 20
         if title:
-            ax.text(141, 13, title, ha='center', va='baseline', fontsize=FS + 3,
+            ax.text(W / 2, 13, title, ha='center', va='baseline', fontsize=FS + 3,
                     color=INK, fontweight='bold')
-            self.y = 25
+            self.y = 23
 
-    def w(self, s, x=12, size=FS, color=INK, step=10, **kw):
+    def w(self, s, x=10, size=FS, color=INK, step=7.5, **kw):
         self.ax.text(x, self.y, s, fontsize=size, color=color, va='baseline', **kw)
         self.y += step
 
-    def head(self, s, x=12):
+    def head(self, s, x=10):
         self.ax.text(x, self.y, s, fontsize=FS + 1, color=INK, va='baseline', fontweight='bold')
-        self.ax.plot([x, x + 3.2 * len(s.replace('$', '')) * 0.62], [self.y + 1.2] * 2,
-                     color=INK, lw=0.8)
-        self.y += 10
+        self.hy = self.y
+        self.y += 7.5
 
-    def answer(self, s, x=12):
-        self.ax.text(x, self.y, 'Ответ: ' + s, fontsize=FS + 1, color=RED, va='baseline',
-                     bbox=dict(boxstyle='square,pad=0.35', fc='none', ec=RED, lw=1.1))
-        self.y += 12
+    def answer(self, s, x=40):
+        self.ax.text(x, self.hy, 'Ответ: ' + s, fontsize=FS + 1, color=RED, va='baseline',
+                     bbox=dict(boxstyle='square,pad=0.3', fc='none', ec=RED, lw=1.0))
 
     def skip(self, d=5):
         self.y += d
@@ -82,7 +80,7 @@ def seg(ax, p, q, c=PEN, lw=1.4, ls='-', z=2):
 
 
 def arrow(ax, p, q, c=INK, lw=2.0):
-    ax.add_patch(FancyArrowPatch(p, q, arrowstyle='-|>', mutation_scale=16, color=c, lw=lw,
+    ax.add_patch(FancyArrowPatch(p, q, arrowstyle='-|>', mutation_scale=12, color=c, lw=lw,
                                  shrinkA=0, shrinkB=0, zorder=4))
 
 
@@ -91,7 +89,7 @@ def lab(ax, p, s, dx=0, dy=0, c=PEN, size=FS):
 
 
 def dot(ax, p, c=PEN, r=None):
-    ax.plot([p[0]], [p[1]], 'o', color=c, ms=4.5, zorder=5)
+    ax.plot([p[0]], [p[1]], 'o', color=c, ms=3.5, zorder=5)
 
 
 def right_angle(ax, foot, along, up, s=0.35, c=PEN):
@@ -203,241 +201,206 @@ def cv(t):  # {x; y}
     return r'\{%d;\,%d\}' % t
 
 
-# ======================= pages =======================
-def page_t1_t3(pdf, n, d):
-    t = d['t1']
-    p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
-    p.w('Часть 1', x=120, size=FS + 1, color=INK)
+# ======================= blocks (tasks in order) =======================
+FX, FW = 140, 54          # figure column
+GAP = 5
+BOTTOM = 290
+
+
+class Flow:
+    def __init__(self, pdf, n):
+        self.pdf, self.n = pdf, n
+        self.p = Page(pdf, f'Контрольная работа № 1.  Вариант {n}')
+
+    def need(self, h):
+        if self.p.y + h > BOTTOM:
+            self.p.save()
+            self.p = Page(self.pdf, f'Вариант {self.n} (продолжение)')
+        return self.p
+
+    def part(self, s):
+        p = self.need(30)
+        p.ax.text(W / 2, p.y, s, ha='center', fontsize=FS + 1, color=INK, va='baseline',
+                  style='italic')
+        p.y += 6.5
+
+    def fig(self, y0, fh, xlim, ylim, fw=FW, fx=FX):
+        return self.p.inset(fx, y0 - 4, fw, fh, xlim, ylim)
+
+    def end(self, y0, fh):
+        self.p.y = max(self.p.y, y0 - 4 + fh) + GAP
+
+
+def b1(f, d):
+    t = d['t1']; s = t['start']
+    p = f.need(32); y0 = p.y
     p.head('Задача 1.')
-    p.w(f'$KMNP$ — параллелограмм. ${V(t["start"] + t["a"])}+{V(t["start"] + t["b"])}=\\;?$')
-    p.w(f'По правилу параллелограмма сумма — диагональ из ${t["start"]}$:')
-    p.w(f'${V(t["start"] + t["a"])}+{V(t["start"] + t["b"])}={V(t["start"] + t["res"])}$', x=40, size=FS + 3, step=12)
-    p.answer(t['ans'] + f'   $({V(OPTS1[t["ans"]])})$')
-    # figure
+    p.w(f'${V(s + t["a"])}+{V(s + t["b"])}={V(s + t["res"])}$  (правило параллелограмма)')
+    p.answer(t['ans'])
     pts = {'K': (0, 0), 'M': (1.3, 2.6), 'N': (5.3, 2.6), 'P': (4, 0)}
-    ax = p.inset(172, 22, 105, 80, (-0.8, 6.1), (-0.8, 3.4))
-    poly = [pts[c] for c in 'KMNP']
-    ax.add_patch(Polygon(poly, closed=True, fill=False, ec=PEN, lw=1.3))
-    s = pts[t['start']]
-    arrow(ax, s, pts[t['a']], c=INK, lw=2.2)
-    arrow(ax, s, pts[t['b']], c=INK, lw=2.2)
-    arrow(ax, s, pts[t['res']], c=RED, lw=2.2)
-    off = {'K': (-0.35, -0.3), 'M': (-0.3, 0.3), 'N': (0.3, 0.3), 'P': (0.35, -0.3)}
+    ax = f.fig(y0 - 2, 26, (-0.6, 5.9), (-0.6, 3.2))
+    ax.add_patch(Polygon([pts[c] for c in 'KMNP'], closed=True, fill=False, ec=PEN, lw=1.1))
+    S = pts[s]
+    arrow(ax, S, pts[t['a']], c=INK, lw=1.6); arrow(ax, S, pts[t['b']], c=INK, lw=1.6)
+    arrow(ax, S, pts[t['res']], c=RED, lw=1.6)
+    off = {'K': (-0.3, -0.3), 'M': (-0.3, 0.3), 'N': (0.3, 0.3), 'P': (0.3, -0.3)}
     for c, q in pts.items():
         lab(ax, q, f'${c}$', *off[c])
-
-    t3 = d['t3']; u, v, U, Vv, k1, k2, r = t3['u'], t3['v'], t3['U'], t3['Vv'], t3['k1'], t3['k2'], t3['r']
-    A = (k1 * U[0], k1 * U[1]); B = (k2 * Vv[0], k2 * Vv[1]); R = (A[0] - B[0], A[1] - B[1])
-    p.skip(4)
-    p.head('Задача 3.')
-    p.w(f'$\\vec{{{u}}}\\,{cv(U)},\\ \\vec{{{v}}}\\,{cv(Vv)}.\\quad \\vec{{{r}}}={k1}\\vec{{{u}}}-{k2}\\vec{{{v}}}$')
-    p.w(f'${k1}\\vec{{{u}}}\\,\\{{{k1}\\cdot{num(U[0])};\\,{k1}\\cdot{num(U[1])}\\}}={cv(A)}$')
-    p.w(f'${k2}\\vec{{{v}}}\\,\\{{{k2}\\cdot{num(Vv[0])};\\,{k2}\\cdot{num(Vv[1])}\\}}={cv(B)}$')
-    p.w(f'$\\vec{{{r}}}\\,\\{{{A[0]}-{num(B[0])};\\,{A[1]}-{num(B[1])}\\}}={cv(R)}$')
-    p.answer(t3['ans'] + f'   $(\\vec{{{r}}}\\,{cv(R)})$')
-    p.save()
+    f.end(y0, 26)
 
 
-def page_t2(pdf, n, d):
+def b2(f, d):
     t = d['t2']
-    p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
-    name = 'прямоугольник' if t['fig'] == 'rect' else 'ромб'
+    p = f.need(45); y0 = p.y
     p.head('Задача 2.')
-    p.w(f'$ABCD$ — {name}.', step=12)
-    for i, (eq, ok, why) in enumerate(t['items'], 1):
-        mark = '+' if ok else '−'
-        col = GREEN if ok else RED
-        p.ax.text(14, p.y, f'{i})', fontsize=FS, color=INK, va='baseline')
-        p.ax.text(22, p.y, f'${eq}$', fontsize=FS, color=INK, va='baseline')
-        p.ax.text(78, p.y, ('верно' if ok else 'неверно') + ' (' + why + ')', fontsize=FS - 1,
-                  color=col, va='baseline')
-        p.y += 11
-    p.skip(2)
+    y = p.y
+    for i, (eq, ok, why) in enumerate(t['items']):
+        col, row = i // 3, i % 3
+        x = 10 + col * 62; yy = y + row * 8
+        p.ax.text(x, yy, f'{i + 1}) ${eq}$', fontsize=FS, color=INK, va='baseline')
+        p.ax.text(x + 36, yy, 'верно' if ok else 'неверно', fontsize=FS - 1,
+                  color=GREEN if ok else RED, va='baseline')
+    p.y = y + 3 * 8
     p.answer(t['ans'])
     if t['fig'] == 'rect':
         P = {'A': (0, 0), 'B': (0, 2.6), 'C': (5, 2.6), 'D': (5, 0)}
         off = {'A': (-0.3, -0.3), 'B': (-0.3, 0.3), 'C': (0.3, 0.3), 'D': (0.3, -0.3)}
-        ax = p.inset(185, 30, 92, 75, (-0.7, 5.7), (-0.8, 3.4))
-        for a, b in [('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'A')]:
-            seg(ax, P[a], P[b])
+        ax = f.fig(y0 + 2, 28, (-0.6, 5.6), (-0.7, 3.2))
         right_angle(ax, P['A'], (1, 0), (0, 1), 0.3)
     else:
         P = {'A': (0, 0), 'B': (2.6, 1.5), 'C': (5.2, 0), 'D': (2.6, -1.5)}
-        off = {'A': (-0.35, 0), 'B': (0, 0.35), 'C': (0.35, 0), 'D': (0, -0.4)}
-        ax = p.inset(185, 30, 92, 75, (-0.7, 5.9), (-2.1, 2.1))
-        for a, b in [('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'A')]:
-            seg(ax, P[a], P[b])
-        right_angle(ax, (2.6, 0), (1, 0), (0, 1), 0.25)
-    seg(ax, P['A'], P['C'], lw=1.0); seg(ax, P['B'], P['D'], lw=1.0)
+        off = {'A': (-0.3, 0), 'B': (0, 0.35), 'C': (0.3, 0), 'D': (0, -0.4)}
+        ax = f.fig(y0 + 2, 28, (-0.6, 5.8), (-2.1, 2.1))
+    for a, b in [('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'A')]:
+        seg(ax, P[a], P[b], lw=1.1)
+    seg(ax, P['A'], P['C'], lw=0.8); seg(ax, P['B'], P['D'], lw=0.8)
     O = ((P['A'][0] + P['C'][0]) / 2, (P['A'][1] + P['C'][1]) / 2)
     dot(ax, O)
     for c in 'ABCD':
         lab(ax, P[c], f'${c}$', *off[c])
-    if t['fig'] == 'rect':
-        lab(ax, O, '$O$', 0.0, -0.4, size=FS - 1)
-    else:
-        lab(ax, O, '$O$', -0.3, -0.35, size=FS - 1)
-    # notes under the figure
-    if t['fig'] == 'rect':
-        notes = ['$AC=BD$ (диагонали равны)', '$AO=OC=BO=OD$', '$\\overrightarrow{AB}=\\overrightarrow{DC}$, $\\overrightarrow{BA}=\\overrightarrow{CD}$']
-    else:
-        notes = ['$AB=BC=CD=DA$', '$AO=OC,\\ BO=OD$', '$\\overrightarrow{BC}=\\overrightarrow{AD}$, $\\overrightarrow{CB}=\\overrightarrow{DA}$']
-    yy = 125
-    notes = []
-    for s_ in notes:
-        p.ax.text(190, yy, s_, fontsize=FS - 2, color=PEN, va='baseline'); yy += 10
-    p.save()
+    lab(ax, O, '$O$', 0.0 if t['fig'] == 'rect' else -0.3, -0.4)
+    f.end(y0 + 2, 28)
 
 
-def page_t4_t5(pdf, n, d):
-    p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
-    p.w('Часть 2', x=120, size=FS + 1)
-    t4 = d['t4']; b = t4['b']
+def b3(f, d):
+    t3 = d['t3']; u, v, U, Vv, k1, k2, r = t3['u'], t3['v'], t3['U'], t3['Vv'], t3['k1'], t3['k2'], t3['r']
+    A = (k1 * U[0], k1 * U[1]); B = (k2 * Vv[0], k2 * Vv[1]); R = (A[0] - B[0], A[1] - B[1])
+    p = f.need(30)
+    p.head('Задача 3.')
+    p.w(f'${k1}\\vec{{{u}}}\\,{cv(A)}$,   ${k2}\\vec{{{v}}}\\,{cv(B)}$')
+    p.w(f'$\\vec{{{r}}}={k1}\\vec{{{u}}}-{k2}\\vec{{{v}}}=\\{{{A[0]}-{num(B[0])};\\,{A[1]}-{num(B[1])}\\}}={cv(R)}$')
+    p.answer(t3['ans'])
+    p.y += GAP
+
+
+def b4(f, d):
+    t4 = d['t4']
+    p = f.need(24)
     p.head('Задача 4.')
-    p.w(f'$\\vec b\\,{cv(b)}$.    $|\\vec b|=\\sqrt{{x^2+y^2}}$')
-    p.w(f'$|\\vec b|={t4["calc"]}$', step=12)
+    p.w(f'$|\\vec b|={t4["calc"]}$')
     p.answer(t4['ans'])
-    # small picture for vector b
-    ax = p.inset(150, 22, 62, 62, (-6, 6), (-6.5, 6))
-    coord_grid(ax, -5.5, 5.5, -6.5, 5.5)
-    axes_xy(ax, -5.8, 5.8, -6.6, 5.8)
-    arrow(ax, (0, 0), b, c=RED, lw=2.0)
-    seg(ax, (b[0], 0), b, ls='--', lw=0.9); seg(ax, (0, b[1]), b, ls='--', lw=0.9)
-    lab(ax, b, '$\\vec b$', 0.9 if b[0] > 0 else -0.9, 0.3, c=RED)
+    p.y += GAP
 
+
+def b5(f, d):
     t5 = d['t5']; (n1, P1), (n2, P2) = t5['P'], t5['Q']
-    p.skip(3)
+    p = f.need(42); y0 = p.y
     p.head('Задача 5.')
-    p.w(f'По рисунку: ${n1}({P1[0]};\\,{P1[1]})$,  ${n2}({P2[0]};\\,{P2[1]})$.')
+    p.w(f'${n1}({P1[0]};\\,{P1[1]})$,  ${n2}({P2[0]};\\,{P2[1]})$')
     if t5['kind'] == 'len':
-        dx, dy = P2[0] - P1[0], P2[1] - P1[1]
-        p.w(f'${n1}{n2}=\\sqrt{{(x_2-x_1)^2+(y_2-y_1)^2}}$')
-        p.w(f'${n1}{n2}=\\sqrt{{({P2[0]}-{num(P1[0])})^2+({P2[1]}-{num(P1[1])})^2}}='
-            f'\\sqrt{{{dx}^2+{dy}^2}}=\\sqrt{{{dx*dx}+{dy*dy}}}=\\sqrt{{{dx*dx+dy*dy}}}={int(np.sqrt(dx*dx+dy*dy))}$', step=12)
-        p.answer(f'{n1}{n2} = {int(np.sqrt(dx*dx+dy*dy))}')
+        dx, dy = P2[0] - P1[0], P2[1] - P1[1]; L = int(np.sqrt(dx * dx + dy * dy))
+        p.w(f'${n1}{n2}=\\sqrt{{{dx}^2+{dy}^2}}=\\sqrt{{{dx*dx}+{dy*dy}}}=\\sqrt{{{dx*dx+dy*dy}}}={L}$')
+        p.answer(f'{L}')
     else:
-        mx, my = (P1[0] + P2[0]) / 2, (P1[1] + P2[1]) / 2
-        p.w(f'Середина $F$: $x=\\frac{{x_1+x_2}}{{2}}$,  $y=\\frac{{y_1+y_2}}{{2}}$', step=12)
-        p.w(f'$x=\\frac{{{P1[0]}+{P2[0]}}}{{2}}=\\frac{{{P1[0]+P2[0]}}}{{2}}={int(mx)}$;   '
-            f'$y=\\frac{{{P1[1]}+{P2[1]}}}{{2}}=\\frac{{{P1[1]+P2[1]}}}{{2}}={int(my)}$', step=13)
-        p.answer(f'$({int(mx)};\\,{int(my)})$')
-    # coordinate figure
+        mx, my = (P1[0] + P2[0]) // 2, (P1[1] + P2[1]) // 2
+        p.w(f'$x=\\frac{{{P1[0]}+{P2[0]}}}{{2}}={mx}$,   $y=\\frac{{{P1[1]}+{P2[1]}}}{{2}}={my}$', step=8.5)
+        p.answer(f'$({mx};\\,{my})$')
     xs = [P1[0], P2[0], 0]; ys = [P1[1], P2[1], 0]
-    x0, x1 = min(xs) - 1.5, max(xs) + 1.8; y0, y1 = min(ys) - 1.5, max(ys) + 1.8
-    ax = p.inset(215, 75, 65, 128, (x0, x1), (y0, y1))
-    coord_grid(ax, x0 + 0.3, x1 - 0.3, y0 + 0.3, y1 - 0.3)
-    axes_xy(ax, x0 + 0.3, x1, y0 + 0.3, y1)
-    seg(ax, P1, P2, c=INK, lw=2.2)
+    x0, x1 = min(xs) - 1.2, max(xs) + 1.5; y0d, y1 = min(ys) - 1.2, max(ys) + 1.5
+    fh = 34
+    ax = f.fig(y0, fh, (x0, x1), (y0d, y1))
+    coord_grid(ax, x0 + 0.3, x1 - 0.3, y0d + 0.3, y1 - 0.3)
+    axes_xy(ax, x0 + 0.3, x1, y0d + 0.3, y1)
+    seg(ax, P1, P2, c=INK, lw=1.8)
     for nm, P in [(n1, P1), (n2, P2)]:
         dot(ax, P, c=INK)
-        seg(ax, (P[0], 0), P, ls='--', lw=0.9); seg(ax, (0, P[1]), P, ls='--', lw=0.9)
+        seg(ax, (P[0], 0), P, ls='--', lw=0.7); seg(ax, (0, P[1]), P, ls='--', lw=0.7)
         lab(ax, P, f'${nm}$', 0.7 if P[0] >= max(P1[0], P2[0]) else -0.7, 0.5, c=INK)
-        lab(ax, (P[0], 0), f'{P[0]}', 0.0, 0.6 if P[1] < 0 else -0.6, size=FS - 4)
-        lab(ax, (0, P[1]), f'{P[1]}', -0.7 if P[0] > 0 else 0.7, 0, size=FS - 4)
+        lab(ax, (P[0], 0), f'{P[0]}', 0.0, 0.7 if P[1] < 0 else -0.7, size=FS - 4)
+        lab(ax, (0, P[1]), f'{P[1]}', -0.8 if P[0] > 0 else 0.8, 0, size=FS - 4)
     if t5['kind'] == 'mid':
         F = ((P1[0] + P2[0]) / 2, (P1[1] + P2[1]) / 2)
-        dot(ax, F, c=RED); lab(ax, F, '$F$', 0.5, 0.6, c=RED)
-    p.save()
+        dot(ax, F, c=RED)
+    f.end(y0, fh)
 
 
-def page_t6(pdf, n, d):
+def b6(f, d):
     t = d['t6']; s, m, e1, e2, v1, v2 = t['seg'], t['mid'], t['e1'], t['e2'], t['v1'], t['v2']
-    res = (v1 + v2) / 2; res_s = f'{res:g}'
-    p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
-    p.w('Часть 3', x=120, size=FS + 1)
+    res_s = f'{(v1 + v2) / 2:g}'
+    p = f.need(42); y0 = p.y
     p.head('Задача 6.')
-    p.w(f'Дано: ${s}\\cap a=\\varnothing$, ${m}$ — середина ${s}$,')
-    p.w(f'${e1}{e1}_1\\perp a$, ${e2}{e2}_1\\perp a$, ${m}{m}_1\\perp a$, ${e1}{e1}_1={v1}$, ${e2}{e2}_1={v2}$.')
-    p.w(f'Найти: ${m}{m}_1$.', step=12)
-    p.w('Решение.')
-    p.w(f'1) ${e1}{e1}_1\\parallel {m}{m}_1\\parallel {e2}{e2}_1$ (все $\\perp a$) $\\Rightarrow$ ${e1}{e1}_1{e2}_1{e2}$ — трапеция.')
-    p.w(f'2) ${m}$ — середина ${s}$ $\\Rightarrow$ ${m}_1$ — середина ${e1}_1{e2}_1$ (т. Фалеса).')
-    p.w(f'3) ${m}{m}_1$ — средняя линия трапеции:')
-    p.w(f'${m}{m}_1=\\frac{{{e1}{e1}_1+{e2}{e2}_1}}{{2}}=\\frac{{{v1}+{v2}}}{{2}}=\\frac{{{v1+v2}}}{{2}}={res_s}$', x=40, size=FS + 3, step=14)
+    p.w(f'${e1}{e1}_1\\parallel {m}{m}_1\\parallel {e2}{e2}_1$ (все $\\perp a$) $\\Rightarrow$')
+    p.w(f'${e1}{e1}_1{e2}_1{e2}$ — трапеция; ${m}_1$ — середина ${e1}_1{e2}_1$')
+    p.w(f'(т. Фалеса) $\\Rightarrow$ ${m}{m}_1$ — средняя линия:')
+    p.w(f'${m}{m}_1=\\frac{{{v1}+{v2}}}{{2}}={res_s}$', step=8.5)
     p.answer(res_s)
-    # figure
     big_left = v1 > v2
-    h1, h2 = (3.2, 1.3) if big_left else (1.3, 3.2)
-    X1, X2 = 0.6, 5.4
+    h1, h2 = (3.0, 1.2) if big_left else (1.2, 3.0)
+    X1, X2 = 0.5, 5.0
     A, B = (X1, h1), (X2, h2); A1, B1 = (X1, 0), (X2, 0)
     C = ((X1 + X2) / 2, (h1 + h2) / 2); C1 = (C[0], 0)
-    ax = p.inset(180, 70, 98, 85, (-0.4, 6.4), (-0.9, 4.0))
-    seg(ax, (-0.3, 0), (6.3, 0), lw=1.3); lab(ax, (6.3, 0), '$a$', 0, 0.3)
-    seg(ax, A, B, c=INK, lw=2.0)
-    for P, Q in [(A, A1), (B, B1), (C, C1)]:
-        seg(ax, P, Q, c=PEN, lw=1.2)
-        right_angle(ax, Q, (1, 0), (0, 1), 0.22)
-    for P in [A, B, C, A1, B1, C1]:
-        dot(ax, P)
+    ax = f.fig(y0, 36, (-0.3, 5.9), (-0.8, 3.6))
+    seg(ax, (-0.2, 0), (5.8, 0), lw=1.1); lab(ax, (5.8, 0), '$a$', 0, 0.3)
+    seg(ax, A, B, c=INK, lw=1.6)
+    for P_, Q in [(A, A1), (B, B1), (C, C1)]:
+        seg(ax, P_, Q, lw=1.0); right_angle(ax, Q, (1, 0), (0, 1), 0.2)
+    for P_ in [A, B, C, A1, B1, C1]:
+        dot(ax, P_)
     lab(ax, A, f'${e1}$', -0.3, 0.3); lab(ax, B, f'${e2}$', 0.3, 0.3); lab(ax, C, f'${m}$', 0.1, 0.4)
     lab(ax, A1, f'${e1}_1$', 0, -0.45); lab(ax, B1, f'${e2}_1$', 0, -0.45); lab(ax, C1, f'${m}_1$', 0, -0.45)
-    lab(ax, ((A[0] + A1[0]) / 2, A[1] / 2), f'{v1}', -0.35, 0, c=RED, size=FS - 2)
-    lab(ax, ((B[0] + B1[0]) / 2, B[1] / 2), f'{v2}', 0.35, 0, c=RED, size=FS - 2)
-    lab(ax, (C[0], C[1] / 2), '?', 0.3, 0, c=RED, size=FS - 1)
-    # equal-segment ticks
-    for P, Q in [(A, C), (C, B)]:
-        mpt = np.array([(P[0] + Q[0]) / 2, (P[1] + Q[1]) / 2])
-        dvec = np.array([Q[0] - P[0], Q[1] - P[1]]); nv = np.array([-dvec[1], dvec[0]]); nv /= np.linalg.norm(nv)
-        seg(ax, mpt - nv * 0.15, mpt + nv * 0.15, lw=1.0)
-    p.save()
+    lab(ax, (A[0], A[1] / 2), f'{v1}', -0.35, 0, c=RED, size=FS - 2)
+    lab(ax, (B[0], B[1] / 2), f'{v2}', 0.35, 0, c=RED, size=FS - 2)
+    f.end(y0, 36)
 
 
-def page_t7(pdf, n, d):
-    t = d['t7']
-    p = Page(pdf, f'Контрольная работа № 1.   Вариант {n}')
-    A, B, side = t['A'], t['B'], t['side']
+def b7(f, d):
+    t = d['t7']; A, B, side = t['A'], t['B'], t['side']
     xa = t['Rs'] if side > 0 else '-' + t['Rs']
+    p = f.need(45); y0 = p.y
     p.head('Задача 7*.')
-    p.w(f'Дано: $x^2+y^2={t["R2"]}$;  ${A}$ на $Ox$ $(x{">" if side > 0 else "<"}0)$;  ${B}$ на окр., $x_{B}={t["xb"]}$.')
-    p.w(f'Найти: $S_{{O{B}{A}}}$.', step=12)
-    p.w('Решение.')
-    p.w(f'1) Центр $O(0;\\,0)$, радиус $R=\\sqrt{{{t["R2"]}}}={t["Rs"]}$.' if t['Rs'] not in ('6', '5')
-        else f'1) Центр $O(0;\\,0)$, радиус $R=\\sqrt{{{t["R2"]}}}={t["Rs"]}$.')
-    p.w(f'2) ${A}$ лежит на $Ox$: $y=0$, $x^2={t["R2"]}$, $x={xa}$  $\\Rightarrow$  ${A}({xa};\\,0)$,  $O{A}={t["Rs"]}$.')
-    p.w(f'3) ${B}$: ${num(t["xb"])}^2+y^2={t["R2"]}$, $y^2={t["R2"]}-{t["xb"]**2}={t["y2"]}$, $y=\\pm {t["ys"]}$.')
-    p.w(f'4) Высота ${B}H$ к $O{A}$ (на оси $Ox$): ${B}H=|y|={t["ys"]}$.')
-    p.w(f'5) $S=\\frac{{1}}{{2}}\\cdot O{A}\\cdot {B}H={t["S"]}$', size=FS + 2, step=13)
+    p.w(f'$R=\\sqrt{{{t["R2"]}}}={t["Rs"]}$,  ${A}({xa};\\,0)$,  $O{A}={t["Rs"]}$' if t['Rs'] not in ('5', '6')
+        else f'$R={t["Rs"]}$,  ${A}({xa};\\,0)$,  $O{A}={t["Rs"]}$')
+    p.w(f'${B}$: ${num(t["xb"])}^2+y^2={t["R2"]}$, $y^2={t["y2"]}$, ${B}H=|y|={t["ys"]}$')
+    p.w(f'$S=\\frac{{1}}{{2}}\\cdot O{A}\\cdot {B}H={t["S"]}$', step=8.5)
     p.answer(t['ans'])
-    # figure
-    R = t['Rv']; xb = t['xb']; yb = np.sqrt(t['y2'])
-    L = R + 1.5
-    ax = p.inset(192, 25, 88, 120, (-L, L), (-L, L))
+    R = t['Rv']; xb = t['xb']; yb = np.sqrt(t['y2']); L = R * 1.3
+    fh = 40
+    ax = f.fig(y0, fh, (-L, L), (-L, L))
     axes_xy(ax, -L, L, -L, L)
-    ax.add_patch(Circle((0, 0), R, fill=False, ec=PEN, lw=1.3))
+    ax.add_patch(Circle((0, 0), R, fill=False, ec=PEN, lw=1.1))
     Ap = (side * R, 0); Bp = (xb, yb); Hp = (xb, 0)
-    ax.add_patch(Polygon([(0, 0), Ap, Bp], closed=True, fc='#ffcdd2', ec=RED, lw=1.8, alpha=0.9, zorder=3))
-    seg(ax, Bp, Hp, c=INK, ls='--', lw=1.2, z=4)
-    right_angle(ax, Hp, (1 if xb < 0 else -1, 0), (0, 1), R * 0.07)
-    for P in [Ap, Bp, Hp]:
-        dot(ax, P)
-    lab(ax, Ap, f'${A}$', side * 0.45, -0.45 * R / 4)
-    lab(ax, Bp, f'${B}$', 0.0, 0.5 * R / 4)
-    lab(ax, Hp, '$H$', -0.0, -0.5 * R / 4)
-    p.save()
+    ax.add_patch(Polygon([(0, 0), Ap, Bp], closed=True, fc='#ffcdd2', ec=RED, lw=1.4, zorder=3))
+    seg(ax, Bp, Hp, c=INK, ls='--', lw=1.0, z=4)
+    for P_ in [Ap, Bp, Hp]:
+        dot(ax, P_)
+    lab(ax, Ap, f'${A}$', side * 0.1 * R, 0.12 * R)
+    lab(ax, Bp, f'${B}$', 0.0, 0.13 * R)
+    lab(ax, Hp, '$H$', 0.0, -0.13 * R)
+    f.end(y0, fh)
 
 
-def title_page(pdf):
-    p = Page(pdf)
-    p.ax.text(141, 55, 'Контрольная работа № 1', ha='center', fontsize=40, color=INK, fontweight='bold')
-    p.ax.text(141, 75, 'Векторы. Метод координат', ha='center', fontsize=30, color=INK)
-    p.ax.text(141, 95, 'Решения всех четырёх вариантов', ha='center', fontsize=24, color=RED)
-    p.ax.text(141, 125, 'Н. Б. Мельникова, «Контрольные работы по геометрии. 9 класс»',
-              ha='center', fontsize=19, color=PEN)
-    p.ax.text(141, 140, 'Части 1–2 — ответы с пояснениями, часть 3 — полное решение с чертежом',
-              ha='center', fontsize=19, color=PEN)
-    # small decorative vectors
-    ax = p.inset(100, 150, 90, 45, (0, 6), (0, 3))
-    arrow(ax, (0.5, 0.5), (3.5, 0.5), c=INK); arrow(ax, (0.5, 0.5), (2.0, 2.5), c=INK)
-    arrow(ax, (0.5, 0.5), (5.0, 2.5), c=RED)
-    seg(ax, (3.5, 0.5), (5.0, 2.5), ls='--', lw=1); seg(ax, (2.0, 2.5), (5.0, 2.5), ls='--', lw=1)
-    lab(ax, (2, 0.15), '$\\vec a$', c=INK); lab(ax, (1.0, 1.8), '$\\vec b$', c=INK)
-    lab(ax, (2.6, 2.0), '$\\vec a+\\vec b$', c=RED)
-    p.save()
+def variant(pdf, n):
+    d = VARS[n]
+    f = Flow(pdf, n)
+    f.part('Часть 1'); b1(f, d); b2(f, d); b3(f, d)
+    f.part('Часть 2'); b4(f, d); b5(f, d)
+    f.part('Часть 3'); b6(f, d); b7(f, d)
+    f.p.save()
 
 
 def summary_page(pdf):
-    p = Page(pdf, 'Ответы (сводная таблица)')
-    rows = [('№', 'Вариант 1', 'Вариант 2', 'Вариант 3', 'Вариант 4'),
+    p = Page(pdf, 'Ответы')
+    rows = [('', 'Вар. 1', 'Вар. 2', 'Вар. 3', 'Вар. 4'),
             ('1', '3', '2', '1', '4'),
             ('2', '3; 4; 6', '2; 5; 6', '1; 4; 6', '3; 5; 6'),
             ('3', '1', '4', '2', '3'),
@@ -445,30 +408,22 @@ def summary_page(pdf):
             ('5', '10', '(1; 4)', '10', '(−1; 4)'),
             ('6', '11', '12', '12', '9'),
             ('7*', r'$2\sqrt{6}$', r'$9\sqrt{3}$', r'$4\sqrt{5}$', '10')]
-    xs = [27, 69.5, 124.5, 179.5, 234.5]; x_edges = [12, 42, 97, 152, 207, 262]
-    y = 35
+    edges = [15, 35, 75, 115, 155, 195]
+    top, rh = 25, 12
     for i, r in enumerate(rows):
-        for x, c in zip(xs, r):
-            p.ax.text(x, y + 7, c, fontsize=FS + 2, color=INK if i else RED,
-                      ha='center', va='baseline')
-        y += 20
-    for yy in range(25, 25 + 20 * len(rows) + 1, 20):
-        p.ax.plot([12, 262], [yy, yy], color=INK, lw=1)
-    for xx in x_edges:
-        p.ax.plot([xx, xx], [25, 25 + 20 * len(rows)], color=INK, lw=1)
-    p.ax.text(141, 200, 'Ответы сверены с ответами в конце сборника.', ha='center', fontsize=FS - 1, color=PEN)
+        for j, c in enumerate(r):
+            p.ax.text((edges[j] + edges[j + 1]) / 2, top + i * rh + 8, c, fontsize=FS + 1,
+                      color=RED if i == 0 or j == 0 else INK, ha='center', va='baseline')
+    for i in range(len(rows) + 1):
+        p.ax.plot([edges[0], edges[-1]], [top + i * rh] * 2, color=INK, lw=0.8)
+    for x in edges:
+        p.ax.plot([x, x], [top, top + rh * len(rows)], color=INK, lw=0.8)
     p.save()
 
 
 out = os.path.join(HERE, 'КР1_векторы_решения.pdf')
 with PdfPages(out) as pdf:
-    title_page(pdf)
     for n in range(1, 5):
-        d = VARS[n]
-        page_t1_t3(pdf, n, d)
-        page_t2(pdf, n, d)
-        page_t4_t5(pdf, n, d)
-        page_t6(pdf, n, d)
-        page_t7(pdf, n, d)
+        variant(pdf, n)
     summary_page(pdf)
 print(out)
