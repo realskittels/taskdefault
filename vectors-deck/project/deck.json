@@ -1,0 +1,37 @@
+{
+  "v": 4,
+  "createdOnFiles": {"v": 1, "at": "2026-10-04T10:00:00Z"},
+  "lists": "css",
+  "title": "Векторы — подготовка к контрольной",
+  "cover": "cover",
+  "order": [
+    "cover", "plan",
+    "what-is", "notation", "length", "zero-vector", "task-1", "answers-1",
+    "collinear", "equal", "opposite", "task-2", "answers-2",
+    "add-idea", "triangle-rule", "parallelogram-rule", "chain-rule", "task-3", "answers-3",
+    "subtract-idea", "subtract-rule", "parallelogram-diagonals", "task-4", "answers-4",
+    "multiply", "multiply-rules", "task-5", "answers-5",
+    "midpoint", "trapezoid", "decompose", "task-6", "answers-6",
+    "coord-basis", "coord-points", "coord-ops", "coord-midpoint", "task-7", "answers-7",
+    "angle", "dot-product", "task-8", "answers-8",
+    "cheat-1", "cheat-2", "mistakes", "final-test", "final-answers", "closing"
+  ],
+  "sections": {
+    "s0": {"description": "Знакомство: что будет в уроке и как заниматься", "start": "cover"},
+    "s1": {"description": "Тема 1: что такое вектор, его длина и нулевой вектор", "start": "what-is"},
+    "s2": {"description": "Тема 2: коллинеарные, равные и противоположные векторы", "start": "collinear"},
+    "s3": {"description": "Тема 3: сложение векторов — правила треугольника, параллелограмма и многоугольника", "start": "add-idea"},
+    "s4": {"description": "Тема 4: вычитание векторов", "start": "subtract-idea"},
+    "s5": {"description": "Тема 5: умножение вектора на число", "start": "multiply"},
+    "s6": {"description": "Тема 6: векторы в задачах — середина отрезка, средняя линия трапеции, разложение", "start": "midpoint"},
+    "s7": {"description": "Тема 7: координаты вектора", "start": "coord-basis"},
+    "s8": {"description": "Бонус: угол между векторами и скалярное произведение", "start": "angle"},
+    "s9": {"description": "Итог: шпаргалка, частые ошибки и мини-контрольная", "start": "cheat-1"}
+  },
+  "faces": {
+    "rubik": {"family": "Rubik", "href": "https://fonts.googleapis.com/css2?family=Rubik:wght@400..700&display=swap"},
+    "nunito": {"family": "Nunito", "href": "https://fonts.googleapis.com/css2?family=Nunito:wght@400..800&display=swap"},
+    "caveat": {"family": "Caveat", "href": "https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap"}
+  },
+  "designSystems": []
+}

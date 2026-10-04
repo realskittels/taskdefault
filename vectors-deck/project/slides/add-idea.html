@@ -1,0 +1,39 @@
+<section id="add-idea" data-transition="fade" style="background:#FBF8F1;color:#1F2A44;font-family:'Nunito', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Rubik', Arial, sans-serif;font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2563C9">Тема 3 · Сложение</p>
+<h2 style="font-family:'Rubik', Arial, sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#1F2A44">Сложение: в чём смысл</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:56px;align-items:flex-start">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Представь: ты прошёл по вектору <b>a</b>, а потом — по вектору <b>b</b>. Куда ты попал в итоге?</p>
+<div style="display:flex;flex-direction:column;gap:10px;background:#E9F0FB;border-left:8px solid #2563C9;border-radius:16px;padding:24px 32px">
+<p style="font-size:30px;line-height:1.4;color:#1F2A44">Сумма <b>a</b> + <b>b</b> — это общее перемещение: из самой первой точки в самую последнюю.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFEFA;border:2px solid #E8E1D3;border-radius:20px;padding:28px 32px">
+<h3 style="font-size:30px;font-weight:800;line-height:1.3;color:#1F2A44">Пример</h3>
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Из дома 4 квартала на восток (<b>a</b>), потом 3 квартала на север (<b>b</b>). Итог <b>a</b> + <b>b</b> — прямо из дома в точку финиша. Это 5 кварталов (по Пифагору), а не 7!</p>
+</div>
+</div>
+<div style="position:relative;width:720px;height:560px;flex:none">
+<svg aria-label="Клетчатая карта: из дома вектор a на 4 клетки вправо, затем вектор b на 3 клетки вверх; вектор a + b идёт из дома прямо в финиш" style="position:absolute;left:0;top:0" width="720" height="560" viewBox="0 0 720 560">
+<defs>
+<marker id="hb" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#2563C9"/></marker>
+<marker id="ho" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#B5520E"/></marker>
+<marker id="hp" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#7B3FB5"/></marker>
+</defs>
+<path d="M0 0H720M0 80H720M0 160H720M0 240H720M0 320H720M0 400H720M0 480H720M0 560H720M0 0V560M80 0V560M160 0V560M240 0V560M320 0V560M400 0V560M480 0V560M560 0V560M640 0V560M720 0V560" stroke="#DCE2EC" stroke-width="1.5" fill="none"/>
+<line x1="80" y1="480" x2="394.0" y2="480.0" stroke="#2563C9" stroke-width="5" marker-end="url(#hb)"/>
+<line x1="400" y1="480" x2="400.0" y2="246.0" stroke="#B5520E" stroke-width="5" marker-end="url(#ho)"/>
+<line x1="80" y1="480" x2="395.2" y2="243.6" stroke="#7B3FB5" stroke-width="5" marker-end="url(#hp)"/>
+<circle cx="80" cy="480" r="10" fill="#1F2A44"/>
+<circle cx="400" cy="240" r="8" fill="#1F2A44"/>
+</svg>
+<p style="position:absolute;left:30px;top:500px;width:100px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">Дом</p>
+<p style="position:absolute;left:220px;top:496px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#2563C9">a</p>
+<p style="position:absolute;left:418px;top:342px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#B5520E">b</p>
+<p style="position:absolute;left:150px;top:300px;width:120px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#7B3FB5">a + b</p>
+<p style="position:absolute;left:420px;top:196px;width:140px;font-size:30px;font-weight:800;line-height:1.2;color:#1F2A44">Финиш</p>
+</div>
+</div>
+<aside>Сумма векторов — это не сумма длин! Путь был 4 + 3 = 7 кварталов, а перемещение — всего 5.</aside>
+</section>

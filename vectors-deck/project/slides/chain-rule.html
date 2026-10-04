@@ -1,0 +1,46 @@
+<section id="chain-rule" style="background:#FBF8F1;color:#1F2A44;font-family:'Nunito', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Rubik', Arial, sans-serif;font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2563C9">Тема 3 · Сложение</p>
+<h2 style="font-family:'Rubik', Arial, sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#1F2A44">Цепочка векторов: правило многоугольника</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:56px;align-items:flex-start">
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Векторы идут цепочкой → сумма идёт из самого начала в самый конец:</p>
+<div style="display:flex;flex-direction:column;gap:10px;background:#E9F0FB;border-left:8px solid #2563C9;border-radius:16px;padding:24px 32px">
+<p style="font-size:44px;line-height:1.2;color:#1F2A44"><b>AB</b> + <b>BC</b> + <b>CD</b> + <b>DE</b> = <b>AE</b></p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFEFA;border:2px solid #E8E1D3;border-radius:20px;padding:24px 32px">
+<p style="font-size:30px;line-height:1.4;color:#3A4660"><b>Лайфхак:</b> одинаковые буквы-соседи «сокращаются»:</p>
+<p style="font-size:44px;line-height:1.2;color:#1F2A44"><b>A<span style="color:#8A93A6">B</span></b> + <b><span style="color:#8A93A6">B</span>C</b> = <b>AC</b></p>
+</div>
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Цепочка вернулась в начало → сумма равна нулю: <b>AB</b> + <b>BC</b> + <b>CA</b> = <b>0</b>.</p>
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Слагаемые можно переставлять: <b>BC</b> + <b>AB</b> = <b>AB</b> + <b>BC</b> = <b>AC</b>.</p>
+</div>
+<div style="position:relative;width:780px;height:560px;flex:none">
+<svg aria-label="Цепочка векторов AB, BC, CD, DE и их сумма — вектор AE из первой точки в последнюю" style="position:absolute;left:0;top:0" width="780" height="560" viewBox="0 0 780 560">
+<defs>
+<marker id="hb" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#2563C9"/></marker>
+<marker id="ho" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#B5520E"/></marker>
+<marker id="hp" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#7B3FB5"/></marker>
+</defs>
+<line x1="60" y1="480" x2="217.0" y2="205.2" stroke="#2563C9" stroke-width="5" marker-end="url(#hb)"/>
+<line x1="220" y1="200" x2="434.7" y2="317.1" stroke="#B5520E" stroke-width="5" marker-end="url(#ho)"/>
+<line x1="440" y1="320" x2="576.8" y2="105.1" stroke="#2563C9" stroke-width="5" marker-end="url(#hb)"/>
+<line x1="580" y1="100" x2="717.3" y2="374.6" stroke="#B5520E" stroke-width="5" marker-end="url(#ho)"/>
+<line x1="60" y1="480" x2="714.1" y2="380.9" stroke="#7B3FB5" stroke-width="5" marker-end="url(#hp)"/>
+<circle cx="60" cy="480" r="7" fill="#1F2A44"/>
+<circle cx="220" cy="200" r="7" fill="#1F2A44"/>
+<circle cx="440" cy="320" r="7" fill="#1F2A44"/>
+<circle cx="580" cy="100" r="7" fill="#1F2A44"/>
+<circle cx="720" cy="380" r="7" fill="#1F2A44"/>
+</svg>
+<p style="position:absolute;left:20px;top:492px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">A</p>
+<p style="position:absolute;left:196px;top:140px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">B</p>
+<p style="position:absolute;left:440px;top:336px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">C</p>
+<p style="position:absolute;left:560px;top:40px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">D</p>
+<p style="position:absolute;left:736px;top:362px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">E</p>
+<p style="position:absolute;left:290px;top:466px;width:200px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#7B3FB5">сумма AE</p>
+</div>
+</div>
+<aside>Этот приём с буквами решает большинство задач на упрощение: переставь слагаемые так, чтобы получилась цепочка, и сократи средние буквы.</aside>
+</section>

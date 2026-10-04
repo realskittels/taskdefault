@@ -1,0 +1,39 @@
+<section id="length" style="background:#FBF8F1;color:#1F2A44;font-family:'Nunito', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Rubik', Arial, sans-serif;font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2563C9">Тема 1 · Что такое вектор</p>
+<h2 style="font-family:'Rubik', Arial, sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#1F2A44">Длина вектора</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:56px;align-items:flex-start">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:30px;line-height:1.4;color:#3A4660"><b>Длина вектора</b> — это длина отрезка от начала до конца. Пишут с палочками: |<b>AB</b>| или |<b>a</b>|.</p>
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Длина — обычное <b>число</b>, у неё нет направления. Поэтому |<b>AB</b>| = |<b>BA</b>|.</p>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFEFA;border:2px solid #E8E1D3;border-radius:20px;padding:28px 32px">
+<h3 style="font-size:30px;font-weight:800;line-height:1.3;color:#1F2A44">Как найти длину по клеткам</h3>
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Вектор <b>b</b> идёт по линии клеток — просто посчитай: |<b>b</b>| = 4.</p>
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Вектор <b>a</b> идёт наискосок: 3 клетки вправо и 4 вверх. Это прямоугольный треугольник, по теореме Пифагора: |<b>a</b>| = √(3² + 4²) = √25 = 5.</p>
+</div>
+</div>
+<div style="position:relative;width:770px;height:630px;flex:none">
+<svg aria-label="Клетчатое поле. Вектор a идёт на 3 клетки вправо и 4 вверх, его длина 5. Вектор b идёт на 4 клетки вправо, его длина 4" style="position:absolute;left:0;top:0" width="770" height="630" viewBox="0 0 770 630">
+<defs>
+<marker id="hb" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#2563C9"/></marker>
+<marker id="ho" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#B5520E"/></marker>
+</defs>
+<path d="M0 0H770M0 70H770M0 140H770M0 210H770M0 280H770M0 350H770M0 420H770M0 490H770M0 560H770M0 630H770M0 0V630M70 0V630M140 0V630M210 0V630M280 0V630M350 0V630M420 0V630M490 0V630M560 0V630M630 0V630M700 0V630M770 0V630" stroke="#DCE2EC" stroke-width="1.5" fill="none"/>
+<line x1="70" y1="560" x2="280" y2="560" stroke="#8A93A6" stroke-width="3" stroke-dasharray="10 8"/>
+<line x1="280" y1="560" x2="280" y2="280" stroke="#8A93A6" stroke-width="3" stroke-dasharray="10 8"/>
+<line x1="70" y1="560" x2="276.4" y2="284.8" stroke="#2563C9" stroke-width="5" marker-end="url(#hb)"/>
+<line x1="420" y1="210" x2="694.0" y2="210.0" stroke="#B5520E" stroke-width="5" marker-end="url(#ho)"/>
+<circle cx="70" cy="560" r="7" fill="#2563C9"/>
+<circle cx="420" cy="210" r="7" fill="#B5520E"/>
+</svg>
+<p style="position:absolute;left:145px;top:574px;width:60px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#5B6680">3</p>
+<p style="position:absolute;left:292px;top:402px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#5B6680">4</p>
+<p style="position:absolute;left:118px;top:374px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#2563C9">a</p>
+<p style="position:absolute;left:530px;top:154px;width:60px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#B5520E">b</p>
+<p style="position:absolute;left:470px;top:232px;width:180px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#B5520E">|b| = 4</p>
+<p style="position:absolute;left:340px;top:500px;width:180px;font-size:30px;font-weight:800;line-height:1.2;color:#2563C9">|a| = 5</p>
+</div>
+</div>
+<aside>Сторона клетки считается равной 1. Если вектор идёт наискосок, всегда ищи прямоугольный треугольник и применяй теорему Пифагора.</aside>
+</section>

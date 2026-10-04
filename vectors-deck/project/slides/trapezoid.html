@@ -1,0 +1,44 @@
+<section id="trapezoid" style="background:#FBF8F1;color:#1F2A44;font-family:'Nunito', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Rubik', Arial, sans-serif;font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2563C9">Тема 6 · Векторы в задачах</p>
+<h2 style="font-family:'Rubik', Arial, sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#1F2A44">Средняя линия трапеции</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:56px;align-items:flex-start">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:30px;line-height:1.4;color:#3A4660"><b>Трапеция</b> — четырёхугольник, у которого две стороны параллельны (это <b>основания</b>). <b>Средняя линия</b> соединяет середины боковых сторон.</p>
+<div style="display:flex;flex-direction:column;gap:10px;background:#E9F0FB;border-left:8px solid #2563C9;border-radius:16px;padding:24px 32px">
+<p style="font-size:30px;line-height:1.4;color:#1F2A44">Средняя линия параллельна основаниям и равна их полусумме:</p>
+<p style="font-size:44px;line-height:1.2;color:#1F2A44">MN = (AD + BC) / 2</p>
+<p style="font-size:30px;line-height:1.4;color:#3A4660">Векторно: <b>MN</b> = ½ (<b>AD</b> + <b>BC</b>)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFEFA;border:2px solid #E8E1D3;border-radius:20px;padding:24px 32px">
+<p style="font-size:30px;line-height:1.4;color:#3A4660"><b>Пример:</b> основания 6 и 10. Средняя линия = (6 + 10) / 2 = 8.</p>
+</div>
+</div>
+<div style="position:relative;width:760px;height:560px;flex:none">
+<svg aria-label="Трапеция ABCD с основаниями BC и AD; M — середина AB, N — середина CD; вектор MN — средняя линия" style="position:absolute;left:0;top:0" width="760" height="560" viewBox="0 0 760 560">
+<defs>
+<marker id="hp" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#7B3FB5"/></marker>
+</defs>
+<path d="M60 480 L200 160 L500 160 L700 480 Z" fill="none" stroke="#1F2A44" stroke-width="4" stroke-linejoin="round"/>
+<line x1="130" y1="320" x2="594.0" y2="320.0" stroke="#7B3FB5" stroke-width="5" marker-end="url(#hp)"/>
+<circle cx="60" cy="480" r="7" fill="#1F2A44"/>
+<circle cx="200" cy="160" r="7" fill="#1F2A44"/>
+<circle cx="500" cy="160" r="7" fill="#1F2A44"/>
+<circle cx="700" cy="480" r="7" fill="#1F2A44"/>
+<circle cx="130" cy="320" r="7" fill="#7B3FB5"/>
+<circle cx="600" cy="320" r="7" fill="#7B3FB5"/>
+</svg>
+<p style="position:absolute;left:20px;top:488px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">A</p>
+<p style="position:absolute;left:170px;top:104px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">B</p>
+<p style="position:absolute;left:510px;top:104px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">C</p>
+<p style="position:absolute;left:710px;top:488px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#1F2A44">D</p>
+<p style="position:absolute;left:68px;top:302px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#7B3FB5">M</p>
+<p style="position:absolute;left:626px;top:302px;width:40px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#7B3FB5">N</p>
+<p style="position:absolute;left:300px;top:270px;width:140px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#7B3FB5">MN</p>
+<p style="position:absolute;left:290px;top:104px;width:140px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#5B6680">BC</p>
+<p style="position:absolute;left:310px;top:496px;width:140px;font-size:30px;font-weight:800;line-height:1.2;text-align:center;color:#5B6680">AD</p>
+</div>
+</div>
+<aside>В учебнике эту теорему доказывают с помощью векторов: MN = MB + BC + CN и MN = MA + AD + DN. Складываем и получаем 2·MN = AD + BC, потому что MB + MA = 0 и CN + DN = 0.</aside>
+</section>

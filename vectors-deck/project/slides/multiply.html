@@ -1,0 +1,49 @@
+<section id="multiply" data-transition="fade" style="background:#FBF8F1;color:#1F2A44;font-family:'Nunito', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'Rubik', Arial, sans-serif;font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#2563C9">Тема 5 · Умножение на число</p>
+<h2 style="font-family:'Rubik', Arial, sans-serif;font-size:64px;font-weight:600;line-height:1.1;color:#1F2A44">Умножение вектора на число</h2>
+</div>
+<div style="display:flex;flex-direction:row;gap:56px;align-items:flex-start">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:30px;line-height:1.4;color:#3A4660">k · <b>a</b> — это новый вектор:</p>
+<div style="display:flex;flex-direction:column;gap:10px;background:#FFFEFA;border:2px solid #E8E1D3;border-radius:20px;padding:28px 32px">
+<ul style="font-size:30px;line-height:1.5;color:#1F2A44">
+<li>его длина в |k| раз больше: |k<b>a</b>| = |k| · |<b>a</b>|;</li>
+<li>если k &gt; 0 — смотрит туда же, куда <b>a</b>;</li>
+<li>если k &lt; 0 — смотрит в обратную сторону;</li>
+<li>если k = 0 — получается нулевой вектор.</li>
+</ul>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;background:#E9F0FB;border-left:8px solid #2563C9;border-radius:16px;padding:24px 32px">
+<p style="font-size:30px;line-height:1.4;color:#1F2A44">Пример: |<b>a</b>| = 2. Тогда |3<b>a</b>| = 6, |−<b>a</b>| = 2, |½<b>a</b>| = 1.</p>
+</div>
+<p style="font-family:'Caveat', cursive;font-size:44px;font-weight:700;line-height:1.2;color:#B5520E">Число растягивает, минус разворачивает</p>
+</div>
+<div style="position:relative;width:780px;height:600px;flex:none">
+<svg aria-label="Все векторы начинаются на одной вертикали: a длиной 2 клетки вправо, 2a — 4 клетки вправо, половина a — 1 клетка вправо, минус a — 2 клетки влево, минус 1,5a — 3 клетки влево" style="position:absolute;left:0;top:0" width="780" height="600" viewBox="0 0 780 600">
+<defs>
+<marker id="hb" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#2563C9"/></marker>
+<marker id="ho" viewBox="0 0 26 22" refX="20" refY="11" markerWidth="26" markerHeight="22" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0 L26 11 L0 22 z" fill="#B5520E"/></marker>
+</defs>
+<path d="M0 0H780M0 60H780M0 120H780M0 180H780M0 240H780M0 300H780M0 360H780M0 420H780M0 480H780M0 540H780M0 600H780M0 0V600M60 0V600M120 0V600M180 0V600M240 0V600M300 0V600M360 0V600M420 0V600M480 0V600M540 0V600M600 0V600M660 0V600M720 0V600M780 0V600" stroke="#DCE2EC" stroke-width="1.5" fill="none"/>
+<line x1="300" y1="20" x2="300" y2="580" stroke="#8A93A6" stroke-width="2" stroke-dasharray="8 8"/>
+<line x1="300" y1="60" x2="414.0" y2="60.0" stroke="#2563C9" stroke-width="5" marker-end="url(#hb)"/>
+<line x1="300" y1="180" x2="534.0" y2="180.0" stroke="#2563C9" stroke-width="5" marker-end="url(#hb)"/>
+<line x1="300" y1="300" x2="354.0" y2="300.0" stroke="#2563C9" stroke-width="5" marker-end="url(#hb)"/>
+<line x1="300" y1="420" x2="186.0" y2="420.0" stroke="#B5520E" stroke-width="5" marker-end="url(#ho)"/>
+<line x1="300" y1="540" x2="126.0" y2="540.0" stroke="#B5520E" stroke-width="5" marker-end="url(#ho)"/>
+<circle cx="300" cy="60" r="6" fill="#1F2A44"/>
+<circle cx="300" cy="180" r="6" fill="#1F2A44"/>
+<circle cx="300" cy="300" r="6" fill="#1F2A44"/>
+<circle cx="300" cy="420" r="6" fill="#1F2A44"/>
+<circle cx="300" cy="540" r="6" fill="#1F2A44"/>
+</svg>
+<p style="position:absolute;left:600px;top:41px;width:180px;font-size:30px;font-weight:800;line-height:1.2;color:#2563C9">a</p>
+<p style="position:absolute;left:600px;top:161px;width:180px;font-size:30px;font-weight:800;line-height:1.2;color:#2563C9">2a</p>
+<p style="position:absolute;left:600px;top:281px;width:180px;font-size:30px;font-weight:800;line-height:1.2;color:#2563C9">½ a</p>
+<p style="position:absolute;left:600px;top:401px;width:180px;font-size:30px;font-weight:800;line-height:1.2;color:#B5520E">−a</p>
+<p style="position:absolute;left:600px;top:521px;width:180px;font-size:30px;font-weight:800;line-height:1.2;color:#B5520E">−1,5a</p>
+</div>
+</div>
+<aside>Посчитай клетки: a — 2 клетки, 2a — 4 клетки, ½a — 1 клетка, −a — 2 клетки в другую сторону, −1,5a — 3 клетки в другую сторону.</aside>
+</section>
